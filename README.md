@@ -1,2 +1,2 @@
 # jsfun
-personal and most frecuentet used js functions.
+personal and most frequent used js functions.
