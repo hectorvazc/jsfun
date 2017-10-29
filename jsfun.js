@@ -5,7 +5,9 @@ var log = function log(toLog, active) {
 
 var js = function js(element) {
 	if (!(this instanceof js)) return new js(element);
-	if (!isNode(element)) element = find_selector(element);
+	if (element !== undefined)
+		if(!isNode(element))
+			element = find_selector(element);
 	this.element = element;
 	this.context = undefined;
 };
