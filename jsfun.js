@@ -161,7 +161,11 @@ js.prototype.hide = function () {
 };
 
 js.prototype.show = function () {
-	js.each(function (element) { element.style.removeProperty("display"); });
+	if (this.element !== undefined) {
+		foreach(this.element, function (element) { element.style.removeProperty("display"); });
+	}else {
+		log("this.element is undefined. show call.");
+	}
 	return this;
 };
 
@@ -219,6 +223,15 @@ js.prototype.hidden = function () {
 	if (this.element === undefined) return;
 	return !js.visible();
 };
+
+js.prototype.each = function(fn){
+	if(this.element !== undefined){
+		foreach(this.element, fn);
+		js.clean();
+	}
+	else
+		log("this.element is undefined. show call.");	
+}
 
 js.prototype.event = function (events, fn, optional_identifier) {
 	if (this.element !== undefined) {
