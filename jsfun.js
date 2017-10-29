@@ -10,6 +10,7 @@ var js = function js(element) {
 			element = find_selector(element);
 	this.element = element;
 	this.context = undefined;
+	return this;
 };
 
 js.prototype.get = function () { return this.element; }
