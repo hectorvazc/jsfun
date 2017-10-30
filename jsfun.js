@@ -227,7 +227,7 @@ js.prototype.hidden = function () {
 js.prototype.each = function(fn){
 	if(this.element !== undefined){
 		foreach(this.element, fn);
-		js.clean();
+		this.clean();
 	}
 	else
 		log("this.element is undefined. show call.");	
@@ -240,7 +240,7 @@ js.prototype.event = function (events, fn, optional_identifier) {
 				bind_event(element, event, fn, optional_identifier);
 			});
 		});
-		js.clean();
+		this.clean();
 	} else {
 		log("this.element is undefined. event call.");
 		return this;
