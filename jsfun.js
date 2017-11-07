@@ -25,7 +25,11 @@ js.prototype.here = function (selector) {
 	if (isNode(selector)) this.context = selector;
 	else {
 		var query_result = find_selector(selector);
-		if (query_result.length > 1) this.context = query_result[0];
+		if(isNodeList(query_result)){
+			this.context = query_result[0];
+		}else{
+			this.context = query_result;
+		}
 	}
 	return this;
 };
@@ -221,7 +225,7 @@ js.prototype.visible = function () {
 
 js.prototype.hidden = function () {
 	if (this.element === undefined) return;
-	return !js.visible();
+	return !this.visible();
 };
 
 js.prototype.each = function(fn){
@@ -230,7 +234,7 @@ js.prototype.each = function(fn){
 		this.clean();
 	}
 	else
-		log("this.element is undefined. show call.");	
+		log("this.element is undefined. show call.");
 }
 
 js.prototype.event = function (events, fn, optional_identifier) {
@@ -263,6 +267,10 @@ function find_selector(selector, context) {
 
 function isNode(element) {
 	return element instanceof Node;
+}
+
+function isNodeList(element) {
+	return element instanceof NodeList;
 }
 
 function fn(fn) {
