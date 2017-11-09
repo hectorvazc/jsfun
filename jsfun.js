@@ -13,7 +13,16 @@ var js = function js(element) {
 	return this;
 };
 
-js.prototype.get = function () { return this.element; }
+js.prototype.get = function () { 
+	this.context = undefined;
+	return this.element; 
+}
+
+js.prototype.getNode = function(selector){
+	var element = find_selector(selector, this.context);
+	this.context = undefined;
+	return element;
+}
 
 js.prototype.find = function (selector) {
 	this.element = find_selector(selector, this.context);
@@ -25,10 +34,14 @@ js.prototype.here = function (selector) {
 	if (isNode(selector)) this.context = selector;
 	else {
 		var query_result = find_selector(selector);
-		if(isNodeList(query_result)){
-			this.context = query_result[0];
+		if(query_result === undefined){
+			this.context = undefined;
 		}else{
-			this.context = query_result;
+			if(isNodeList(query_result)){
+				this.context = query_result[0];
+			}else{
+				this.context = query_result;
+			}
 		}
 	}
 	return this;
