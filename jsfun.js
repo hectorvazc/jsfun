@@ -6,19 +6,19 @@ var log = function log(toLog, active) {
 var js = function js(element) {
 	if (!(this instanceof js)) return new js(element);
 	if (element !== undefined)
-		if(!isNode(element))
+		if (!isNode(element))
 			element = find_selector(element);
 	this.element = element;
 	this.context = undefined;
 	return this;
 };
 
-js.prototype.get = function () { 
+js.prototype.get = function () {
 	this.context = undefined;
-	return this.element; 
+	return this.element;
 }
 
-js.prototype.getNode = function(selector){
+js.prototype.getNode = function (selector) {
 	var element = find_selector(selector, this.context);
 	this.context = undefined;
 	return element;
@@ -34,12 +34,12 @@ js.prototype.here = function (selector) {
 	if (isNode(selector)) this.context = selector;
 	else {
 		var query_result = find_selector(selector);
-		if(query_result === undefined){
+		if (query_result === undefined) {
 			this.context = undefined;
-		}else{
-			if(isNodeList(query_result)){
+		} else {
+			if (isNodeList(query_result)) {
 				this.context = query_result[0];
-			}else{
+			} else {
 				this.context = query_result;
 			}
 		}
@@ -180,7 +180,7 @@ js.prototype.hide = function () {
 js.prototype.show = function () {
 	if (this.element !== undefined) {
 		foreach(this.element, function (element) { element.style.removeProperty("display"); });
-	}else {
+	} else {
 		log("this.element is undefined. show call.");
 	}
 	return this;
@@ -241,8 +241,8 @@ js.prototype.hidden = function () {
 	return !this.visible();
 };
 
-js.prototype.each = function(fn){
-	if(this.element !== undefined){
+js.prototype.each = function (fn) {
+	if (this.element !== undefined) {
 		foreach(this.element, fn);
 		this.clean();
 	}
@@ -371,29 +371,41 @@ function parent(element, deep) {
 };
 
 function ajax(method, url) {
-    return new Promise(function (resolve, reject) {
-        var xhr;
+	return new Promise(function (resolve, reject) {
+		var xhr;
 		if (window.XMLHttpRequest) {
 			xhr = new XMLHttpRequest();
-		}else {
+		} else {
 			xhr = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-        xhr.open(method, url);
-        xhr.onload = resolve;
-        xhr.onerror = reject;
-        xhr.send();
-    });
+		xhr.open(method, url);
+		xhr.onload = resolve;
+		xhr.onerror = reject;
+		xhr.send();
+	});
 }
 
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
+function getObject(key, def) {
+	var t = localStorage.getItem(key);
+	if (t === null) {
+		if (def !== undefined) {
+			console.log("Saving default value");
+			setObject(key, def);
+		}
+		t = def;
+	}
+	return getJSON(t);
+};
 
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
-    return value && JSON.parse(value);
-}
+function removeObject(key) {
+	if (getObject(key) !== undefined) {
+		localStorage.removeItem(key);
+		if (getObject(key) === undefined) {
+			console.log("object removed");
+		}
+	}
+};
 
-Storage.prototype.removeObject = function(key){
-	this.removeItem(key);
-}
+function setObject(key, value) {
+	localStorage.setItem(key, setJSON(value));
+};
