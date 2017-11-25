@@ -343,6 +343,10 @@ function bind_event(element, event_type, fn, identifier) {
 	element.addEventListener(event_type, fn);
 };
 
+function empty(str){
+	return (str.length === 0 || !str.trim());
+}
+
 function $data(element, identifier){
 	return element.dataset[identifier];
 };
