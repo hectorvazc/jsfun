@@ -392,7 +392,7 @@ function getObject(key, def) {
 			console.log("Saving default value");
 			setObject(key, def);
 		}
-		t = def;
+		return def;
 	}
 	return getJSON(t);
 };
