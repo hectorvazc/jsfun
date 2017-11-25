@@ -351,11 +351,11 @@ function key_code(event) {
 	return parseInt(event.keyCode || event.which);
 }
 
-function toJSON(obj) {
+function setJSON(obj) {
 	return JSON.stringify(obj);
 };
 
-function parseJSON(obj) {
+function getJSON(obj) {
 	return JSON.parse(obj);
 };
 
