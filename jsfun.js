@@ -343,6 +343,10 @@ function bind_event(element, event_type, fn, identifier) {
 	element.addEventListener(event_type, fn);
 };
 
+function $data(element, identifier){
+	return element.dataset[identifier];
+};
+
 function newElement(typeOfElement) {
 	return document.createElement(typeOfElement);
 }
