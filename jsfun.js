@@ -369,3 +369,18 @@ function parent(element, deep) {
 		return element;
 	}
 };
+
+function ajax(method, url) {
+    return new Promise(function (resolve, reject) {
+        var xhr;
+		if (window.XMLHttpRequest) {
+			xhr = new XMLHttpRequest();
+		}else {
+			xhr = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+        xhr.open(method, url);
+        xhr.onload = resolve;
+        xhr.onerror = reject;
+        xhr.send();
+    });
+}
