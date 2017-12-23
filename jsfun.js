@@ -378,7 +378,7 @@ function parent(element, deep) {
 	}
 };
 
-function ajax(method, url) {
+function ajax(method, url, params) {
 	return new Promise(function (resolve, reject) {
 		var xhr;
 		if (window.XMLHttpRequest) {
@@ -386,12 +386,40 @@ function ajax(method, url) {
 		} else {
 			xhr = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-		xhr.open(method, url);
+		xhr.open(method, url, true);
 		xhr.onload = resolve;
 		xhr.onerror = reject;
-		xhr.send();
+		if(params !== undefined)
+			xhr.send(params);
+		else 
+			xhr.send();
 	});
-}
+};
+
+function getObjectSession(key, def){
+	var t = sessionStorage.getItem(key);
+	if (t === null) {
+		if (def !== undefined) {
+			console.log("Saving default value");
+			setObjectSession(key, def);
+		}
+		return def;
+	}
+	return getJSON(t);
+};
+
+function removeObjectSession(key) {
+	if (getObjectSession(key) !== undefined) {
+		sessionStorage.removeItem(key);
+		if (getObjectSession(key) === undefined) {
+			console.log("object removed");
+		}
+	}
+};
+
+function setObjectSession(key, value) {
+	sessionStorage.setItem(key, setJSON(value));
+};
 
 function getObject(key, def) {
 	var t = localStorage.getItem(key);
